@@ -151,6 +151,33 @@ p{margin:0}
 ul.clean{margin:0;padding-left:18px;display:grid;gap:6px;color:var(--mu)}
 ul.clean b{color:var(--tx)}
 
+/* food tables */
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--s1);border-radius:14px;padding:4px}
+.seg button{border:0;background:none;border-radius:10px;padding:10px 4px;font-weight:700;font-size:13px;color:var(--mu)}
+.seg button[aria-selected="true"]{background:var(--acc);color:var(--ink)}
+.okfoods b{color:var(--tx)}
+.dtot{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dtot div{background:var(--s1);border-radius:16px;padding:12px;display:grid;gap:2px}
+.dtot b{font-family:var(--disp);font-weight:600;font-size:20px;font-variant-numeric:tabular-nums}
+.dtot span{font-size:12px;color:var(--mu);font-weight:600}
+.meal{background:var(--s1);border-radius:var(--r);padding:16px;display:grid;gap:10px}
+.mh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ftab{display:grid}
+.ftab .fh,.ftab .fr{display:grid;grid-template-columns:minmax(0,1fr) 62px 52px;gap:8px;align-items:baseline}
+.ftab .fh{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);padding-bottom:6px;border-bottom:1px solid var(--s2)}
+.ftab .fh span:not(:first-child),.ftab .fr>:not(.fn){text-align:right;font-variant-numeric:tabular-nums}
+.ftab .fr{padding:9px 0;border-bottom:1px solid var(--s2);font-size:14px}
+.ftab .fr:last-child{border-bottom:0}
+.ftab .fr b{color:var(--acc);font-weight:700}
+.ftab .fr>span:last-child{color:var(--mu)}
+.fn{min-width:0;display:grid;gap:2px}
+.fn small{color:var(--mu);font-size:12px}
+.drinks{gap:0}
+.dr{display:grid;gap:2px;padding:10px 0;border-bottom:1px solid var(--s2)}
+.dr:last-child{border-bottom:0}
+.dr span{font-size:13px;color:var(--acc);font-weight:600}
+.dr small{font-size:12px;color:var(--mu)}
+
 /* tab bar */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(15,13,12,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--s2);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 .tabs .in{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
@@ -506,15 +533,61 @@ function progress(){
    '<div class="sec"><h2>History</h2><div class="card hist">'+hist+'</div></div>'+
    '<button class="reset" data-act="reset">Clear all my data</button>';
 }
+/* ---------- food: lean-muscle diet (no pork, red meat, mutton, beef, ham or duck) ---------- */
+// item: [food, amount, protein g, carbs g, kcal]  (approximate values, cooked weight unless marked dry)
+var DIET={
+ nonveg:{n:"Non-veg",d:"Chicken, fish, eggs and dairy",meals:[
+  ["Breakfast · 8 am",[["Oats (dry), cooked in milk","50 g",6.5,33,190],["Toned milk","250 ml",8,12,150],["Whole eggs, boiled or omelette","2 eggs (100 g)",12,1,144],["Banana","1 medium (120 g)",1.3,27,105]]],
+  ["Lunch · 1 pm",[["Rice, cooked","150 g",4,42,195],["Chicken breast curry, skinless","120 g",37,2,240],["Mixed sabzi: palak, beans, carrot","150 g",3,9,105],["Salad: cucumber, tomato, onion","100 g",1,5,20]]],
+  ["Snack · 5 pm (before or after gym)",[["Greek yoghurt or hung curd","150 g",15,6,90],["Peanuts, roasted","20 g",5,3,115]]],
+  ["Dinner · 8 pm",[["Whole-wheat roti","2 rotis (80 g)",6,30,170],["Fish: rohu, surmai or salmon, grilled or curry","120 g",26,0,215],["Stir-fry: broccoli, capsicum, mushroom","150 g",4,9,60]]]]},
+ veg:{n:"Vegetarian",d:"Paneer, dal, soya and dairy",meals:[
+  ["Breakfast · 8 am",[["Oats (dry), cooked in milk","50 g",6.5,33,190],["Toned milk","250 ml",8,12,150],["Almonds","10 g (8 nuts)",2,2,58],["Banana","1 medium (120 g)",1.3,27,105]]],
+  ["Lunch · 1 pm",[["Rice, cooked","150 g",4,42,195],["Dal (moong or masoor), cooked","1 katori (150 g)",9,25,160],["Palak paneer: paneer + spinach","100 g paneer + 100 g palak",21,7,290],["Salad: cucumber, tomato, onion","100 g",1,5,20]]],
+  ["Snack · 5 pm (before or after gym)",[["Greek yoghurt or hung curd","150 g",15,6,90],["Roasted chana","30 g",6.5,17,110]]],
+  ["Dinner · 8 pm",[["Whole-wheat roti","2 rotis (80 g)",6,30,170],["Soya chunks curry","30 g dry",15.5,10,105],["Mixed veg: cauliflower, peas, capsicum","150 g",4,10,65],["Curd (dahi)","100 g",3.5,5,60]]]]},
+ vegan:{n:"Vegan",d:"Tofu, soya, beans and dal",meals:[
+  ["Breakfast · 8 am",[["Oats (dry), cooked in soy milk","50 g",6.5,33,190],["Soy milk, unsweetened","250 ml",7,3,80],["Peanut butter","1 tbsp (16 g)",4,3,95],["Banana","1 medium (120 g)",1.3,27,105]]],
+  ["Lunch · 1 pm",[["Brown rice, cooked","150 g",4,35,165],["Rajma, cooked","150 g",13,34,190],["Tofu stir-fry with broccoli and capsicum","100 g tofu + 100 g veg",17,8,175],["Salad: cucumber, tomato, onion","100 g",1,5,20]]],
+  ["Snack · 5 pm (before or after gym)",[["Plant (pea) protein shake in water","1 scoop (30 g)",22,2,115],["Roasted chana","30 g",6.5,17,110]]],
+  ["Dinner · 8 pm",[["Jowar or whole-wheat roti","2 rotis (80 g)",6,30,170],["Soya chunks curry","30 g dry",15.5,10,105],["Moong dal, cooked","1 katori (150 g)",9,25,160],["Mixed veg: bhindi, lauki, carrot","150 g",3,10,55]]]]}
+};
+var PROT=[["Chicken breast, skinless (cooked)","100 g",31,0,165,"nonveg"],["Fish: rohu, surmai, salmon (cooked)","100 g",22,0,180,"nonveg"],["Tuna in water (tinned)","100 g",25,0,115,"nonveg"],["Whole egg","1 large (50 g)",6,.5,72,"nonveg"],["Egg white","1 (33 g)",3.6,.2,17,"nonveg"],
+ ["Paneer (low-fat)","100 g",20,3,200,"veg"],["Greek yoghurt / hung curd","100 g",10,4,60,"veg"],["Curd (dahi)","100 g",3.5,5,60,"veg"],["Toned milk","250 ml",8,12,150,"veg"],["Whey protein","1 scoop (30 g)",24,3,120,"veg"],
+ ["Soya chunks (dry)","50 g",26,16,172,"vegan"],["Tofu, firm","100 g",15,2,145,"vegan"],["Dal: moong / masoor (cooked)","150 g",9,25,160,"vegan"],["Rajma / chana (cooked)","150 g",13,34,190,"vegan"],["Roasted chana","30 g",6.5,17,110,"vegan"],["Peanuts","30 g",7.5,5,170,"vegan"],["Soy milk, unsweetened","250 ml",7,3,80,"vegan"],["Pea protein","1 scoop (30 g)",22,2,115,"vegan"]];
+var CARB=[["White rice (cooked)","150 g",4,42,195],["Brown rice (cooked)","150 g",4,35,165],["Whole-wheat roti","1 roti (40 g)",3,15,85],["Jowar / ragi roti","1 roti (40 g)",2.5,17,90],["Oats (dry)","50 g",6.5,33,190],["Poha (dry)","50 g",3.5,38,175],["Quinoa (cooked)","150 g",6.5,32,180],["Sweet potato (boiled)","150 g",2.5,30,130],["Potato (boiled)","150 g",3,30,130],["Whole-wheat bread","2 slices (60 g)",7,25,150],["Banana","1 medium (120 g)",1.3,27,105],["Apple","1 medium (150 g)",.4,21,80]];
+var VEG=[["Spinach (palak)","100 g",2.9,3.6,23,"Iron, folate"],["Broccoli","100 g",2.8,7,34,"Vitamin C, fibre"],["Green peas","50 g",2.7,7,40,"Plant protein"],["Mushrooms","100 g",3.1,3.3,22,"Protein, B vitamins"],["French beans","100 g",1.8,7,31,"Fibre"],["Cauliflower","100 g",1.9,5,25,"Vitamin C"],["Cabbage","100 g",1.3,6,25,"Fibre"],["Bhindi (okra)","100 g",1.9,7,33,"Fibre, magnesium"],["Capsicum","100 g",1,6,26,"Vitamin C"],["Carrot","100 g",.9,10,41,"Vitamin A"],["Beetroot","100 g",1.6,10,43,"Good for stamina"],["Lauki (bottle gourd)","100 g",.6,3.4,14,"Light, hydrating"],["Tomato","100 g",.9,3.9,18,"Vitamin C"],["Cucumber","100 g",.7,3.6,15,"Hydrating"],["Onion","50 g",.6,4.7,20,"Flavour, fibre"]];
+var DRINK=[["Water","3–3.5 litres a day","More on gym and run days"],["Buttermilk (chaas), no sugar","250 ml · 3 g protein","Cooling, helps digestion"],["Toned milk or soy milk","250 ml · 7–8 g protein","Good at breakfast or bedtime"],["Whey or pea protein shake in water","1 scoop · 22–24 g protein","Only if meals fall short"],["Coconut water","250 ml · 9 g carbs","After a sweaty run"],["Black coffee","1 cup, 30–45 min before training","For energy. Skip after 4 pm"],["Green tea or lemon water","1–2 cups, no sugar","Easy swap for soft drinks"]];
+var AVOID=["Pork, ham and bacon","Mutton, beef, steak and other red meat","Duck","Sugary soft drinks, packaged juice and energy drinks","Fried snacks, sweets and late-night eating","Alcohol"];
+function fnum(v){return (Math.round(v*10)/10).toString()}
+function ftab(rows,cols){return '<div class="ftab"><div class="fh">'+cols.map(function(c){return '<span>'+c+'</span>'}).join("")+'</div>'+rows.join("")+'</div>'}
 function food(){
-  var plate='<svg viewBox="0 0 120 120" width="120" height="120"><circle cx="60" cy="60" r="56" fill="var(--s2)"/><path d="M60 60 L60 10 A50 50 0 0 1 60 110 Z" fill="#69c2ad"/><path d="M60 60 L60 110 A50 50 0 0 1 10 60 Z" fill="#ff8f3a"/><path d="M60 60 L10 60 A50 50 0 0 1 60 10 Z" fill="#f2d28b"/></svg>';
+  var dk=DIET[S.diet]?S.diet:"nonveg",D=DIET[dk],tp=0,tc=0,tk=0;
+  var seg='<div class="seg" role="tablist">'+Object.keys(DIET).map(function(k){return '<button role="tab" aria-selected="'+(k==dk)+'" data-act="diet" data-a="'+k+'">'+DIET[k].n+'</button>'}).join("")+'</div>';
+  var meals=D.meals.map(function(m){var mp=0,mc=0,mk=0;
+    var rows=m[1].map(function(it){mp+=it[2];mc+=it[3];mk+=it[4];return '<div class="fr"><span class="fn">'+it[0]+'<small>'+it[1]+'</small></span><b>'+fnum(it[2])+'</b><span>'+fnum(it[3])+'</span></div>'});
+    tp+=mp;tc+=mc;tk+=mk;
+    return '<div class="meal"><div class="mh"><h3>'+m[0]+'</h3><span class="small mu">'+Math.round(mp)+' g protein · '+Math.round(mk)+' kcal</span></div>'+ftab(rows,["Food and amount","Protein g","Carbs g"])+'</div>'}).join("");
+  var tot='<div class="dtot"><div><b>'+Math.round(tp)+' g</b><span>Protein</span></div><div><b>'+Math.round(tc)+' g</b><span>Carbs</span></div><div><b>'+Math.round(tk)+'</b><span>kcal</span></div></div>';
+  var tag={nonveg:"Non-veg",veg:"Veg",vegan:"Vegan"};
+  var prot=PROT.map(function(p){return '<div class="fr"><span class="fn">'+p[0]+'<small>'+p[1]+' · '+tag[p[5]]+'</small></span><b>'+fnum(p[2])+'</b><span>'+p[4]+'</span></div>'});
+  var carb=CARB.map(function(p){return '<div class="fr"><span class="fn">'+p[0]+'<small>'+p[1]+'</small></span><b>'+fnum(p[3])+'</b><span>'+p[4]+'</span></div>'});
+  var veg=VEG.map(function(p){return '<div class="fr"><span class="fn">'+p[0]+'<small>'+p[1]+' · '+p[5]+'</small></span><b>'+fnum(p[2])+'</b><span>'+fnum(p[3])+'</span></div>'});
+  var drink=DRINK.map(function(p){return '<div class="dr"><b>'+p[0]+'</b><span>'+p[1]+'</span><small>'+p[2]+'</small></div>'}).join("");
   return '<h1>Food</h1>'+
-   '<div class="bighead" style="--g:var(--g-food);min-height:0"><span class="lbl" style="color:#fff">Daily protein target</span><div class="calc"><label for="bw" style="font-weight:600">Your weight (kg)</label><input id="bw" type="number" min="30" max="200" inputmode="decimal" value="'+S.bw+'"><output id="prot" for="bw" style="color:#fff">'+Math.round(S.bw*1.6)+' g</output></div><p class="small" style="opacity:.92">About 1.6 g per kg of body weight. Split it over 3–4 meals, 25–35 g each.</p></div>'+
-   '<div class="card"><h2>Plate rule</h2><div class="plate">'+plate+'<div class="legend"><span><i style="background:#69c2ad"></i>½ vegetables or salad</span><span><i style="background:#ff8f3a"></i>¼ protein</span><span><i style="background:#f2d28b"></i>¼ rice, roti or millets</span></div></div></div>'+
-   '<div class="card"><h2>Protein sources</h2><ul class="clean"><li><b>Eggs</b>: about 6 g each</li><li><b>Chicken or fish</b>: about 25 g per palm-size piece</li><li><b>Paneer, Greek yoghurt, curd</b></li><li><b>Dal, chana, rajma, soya chunks, tofu</b></li><li><b>Whey shake</b> if meals fall short</li></ul></div>'+
-   '<div class="card"><h2>Habits that burn fat</h2><ul class="clean"><li>Cut sugary drinks, fried snacks and late-night eating first</li><li>2.5–3 L water a day</li><li>7–8 hours of sleep</li><li>8,000+ steps on non-gym days</li><li>Weigh once a week. Aim to lose 0.25–0.5 kg a week.</li></ul></div>'+
-   '<p class="small mu">Exercise photos: free-exercise-db (public domain). General fitness guidance, not medical advice. If you have a health condition, or feel chest pain, dizziness or sharp pain, stop and see a doctor.</p>';
+   '<div class="bighead" style="--g:var(--g-food);min-height:0"><span class="lbl" style="color:#fff">Daily protein for lean muscle</span><div class="calc"><label for="bw" style="font-weight:600">Your weight (kg)</label><input id="bw" type="number" min="30" max="200" inputmode="decimal" value="'+S.bw+'"><output id="prot" for="bw" style="color:#fff">'+Math.round(S.bw*1.6)+'–'+Math.round(S.bw*2)+' g</output></div><p class="small" style="opacity:.92">1.6–2 g of protein per kg of body weight, split over 4 meals of 25–40 g each. Fill half your plate with vegetables, a quarter with protein and a quarter with carbs.</p></div>'+
+   '<p class="small mu okfoods">This plan uses <b>chicken, fish, eggs, paneer and plant protein</b> only. No pork, ham, red meat, mutton, steak or duck.</p>'+
+   '<div class="sec"><div class="sech"><h2>One day of eating</h2><span class="small mu">for about 65 kg</span></div>'+seg+'<p class="small mu">'+D.d+'. Weights are cooked unless marked dry.</p>'+tot+meals+
+   '<p class="small mu">Heavier or lighter than 65 kg? Change the protein food by about 15 g for every 5 kg.</p></div>'+
+   '<div class="sec"><h2>Protein foods</h2><div class="card">'+ftab(prot,["Food and amount","Protein g","kcal"])+'</div></div>'+
+   '<div class="sec"><h2>Carbohydrates</h2><div class="card">'+ftab(carb,["Food and amount","Carbs g","kcal"])+'<p class="small mu">Eat most of your carbs in the meals before and after training.</p></div></div>'+
+   '<div class="sec"><h2>Vegetables</h2><div class="card">'+ftab(veg,["Vegetable and amount","Protein g","Carbs g"])+'<p class="small mu">Aim for 300–400 g of vegetables a day: about 100 g at each main meal plus a salad.</p></div></div>'+
+   '<div class="sec"><h2>Drinks</h2><div class="card drinks">'+drink+'</div></div>'+
+   '<div class="sec"><h2>Avoid</h2><div class="card"><ul class="clean">'+AVOID.map(function(a){return '<li>'+a+'</li>'}).join("")+'</ul></div></div>'+
+   '<div class="card"><h2>Habits that burn fat</h2><ul class="clean"><li>Sleep 7–8 hours</li><li>8,000+ steps on non-gym days</li><li>Cook with 2–3 tsp of oil a day, not more</li><li>Weigh once a week. Aim to lose 0.25–0.5 kg a week.</li></ul></div>'+
+   '<p class="small mu">Values are approximate and vary by brand and recipe. Exercise photos: free-exercise-db (public domain). General fitness guidance, not medical advice. If you have a health condition, or feel chest pain, dizziness or sharp pain, stop and see a doctor.</p>';
 }
+
 function render(){
   $("#view").innerHTML=({today:today,plans:plans,progress:progress,food:food})[tab]();
   document.querySelectorAll(".tabs button").forEach(function(b){if(b.dataset.a==tab)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
@@ -688,6 +761,7 @@ document.addEventListener("click",function(ev){
   var b=ev.target.closest("[data-act]");if(!b)return;var a=b.dataset.act,x=b.dataset.a,y=b.dataset.b;
   switch(a){
     case "tab":tab=x;render();window.scrollTo(0,0);break;
+    case "diet":S.diet=x;save();render();break;
     case "run":startRun(+x,+y);break;
     case "lift":startLift(x);break;
     case "tick":var w=+x,i=+y;S.runs[w]=S.runs[w]>i?i:i+1;save();render();break;
@@ -715,7 +789,7 @@ document.addEventListener("click",function(ev){
     case "kg":var e=X.list[X.i],v=Math.max(0,(S.kg[e.k]||0)+parseFloat(x));S.kg[e.k]=v;save();$("#kgv").textContent=v?v+" kg":"Body wt";break;
   }
 });
-document.addEventListener("input",function(ev){if(ev.target.id=="mvol"){S.mvol=parseFloat(ev.target.value);save();try{M.vol&&M.vol.gain.setTargetAtTime(S.mvol,ctx.currentTime,.05)}catch(e){}return}if(ev.target.id=="bw"){var v=parseFloat(ev.target.value);S.bw=v>0?v:S.bw;save();$("#prot").textContent=(v>0?Math.round(v*1.6):"–")+" g"}});
+document.addEventListener("input",function(ev){if(ev.target.id=="mvol"){S.mvol=parseFloat(ev.target.value);save();try{M.vol&&M.vol.gain.setTargetAtTime(S.mvol,ctx.currentTime,.05)}catch(e){}return}if(ev.target.id=="bw"){var v=parseFloat(ev.target.value);S.bw=v>0?v:S.bw;save();$("#prot").textContent=(v>0?Math.round(v*1.6)+"–"+Math.round(v*2):"–")+" g"}});
 document.addEventListener("visibilitychange",function(){if(document.visibilityState=="visible"&&!P.hidden&&!wake){try{navigator.wakeLock.request("screen").then(function(w){wake=w}).catch(function(){})}catch(e){}}});
 render();
 })();
