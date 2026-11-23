@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f0d0c">
+<meta name="theme-color" content="#06141c">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
@@ -14,15 +14,15 @@
 <style>
 /* Layout: phone-first app shell (480px column) with bottom tab bar; full-screen guided player overlay for runs and lifts. Deliberately dark-only. */
 :root{
-  /* Calm warm-dark surfaces, one saffron accent from Hanuman's dhoti; colour lives only in the hero stages. */
-  --bg:#0f0d0c; --s1:#1a1715; --s2:#24201d; --s3:#342e2a; --tx:#f7f2ec; --mu:#aaa098; --dim:#766d65;
-  --acc:#ff8f3a; --ok:#58c98f; --lift:#f2b84b; --run:#ff8f3a; --walk:#69c2ad; --ink:#140f0c;
-  --g-lift:radial-gradient(130% 100% at 75% 12%,#f5b25e 0%,#c9611f 50%,#4a1a0a 100%);
-  --g-run:radial-gradient(130% 100% at 75% 12%,#ffb36b 0%,#e9672b 50%,#5c1d0c 100%);
-  --g-walk:radial-gradient(130% 100% at 75% 12%,#a3d8c6 0%,#3e8f7d 52%,#143631 100%);
-  --g-fast:radial-gradient(130% 100% at 75% 12%,#ff9e6e 0%,#cf3a3c 52%,#470d18 100%);
-  --g-rest:radial-gradient(130% 100% at 75% 12%,#6a5546 0%,#2e2621 55%,#171311 100%);
-  --g-food:radial-gradient(130% 100% at 75% 12%,#a6d18f 0%,#3f7a4c 52%,#132d1c 100%);
+  /* Deep-ocean surfaces with one aqua accent; colour lives in the hero stages, shaded like water from surface to depth. */
+  --bg:#06141c; --s1:#0c2230; --s2:#12303f; --s3:#1c4254; --tx:#eaf7fb; --mu:#93b9c5; --dim:#5d8696;
+  --acc:#3fd3d6; --ok:#5fe0a6; --lift:#5cb8ff; --run:#3fd3d6; --walk:#86e3c8; --ink:#03121a;
+  --g-lift:radial-gradient(130% 100% at 75% 12%,#6fd0f2 0%,#1f74ac 50%,#0a2a45 100%);
+  --g-run:radial-gradient(130% 100% at 75% 12%,#7aeae2 0%,#14909f 50%,#063241 100%);
+  --g-walk:radial-gradient(130% 100% at 75% 12%,#a4f2dc 0%,#2a9d8f 52%,#0b3b3a 100%);
+  --g-fast:radial-gradient(130% 100% at 75% 12%,#8cc0ff 0%,#2d63c8 52%,#0d1f4f 100%);
+  --g-rest:radial-gradient(130% 100% at 75% 12%,#4a7d92 0%,#173a4a 55%,#0a1d27 100%);
+  --g-food:radial-gradient(130% 100% at 75% 12%,#95e8cb 0%,#1f8a7a 52%,#083330 100%);
   --disp:"Sora","Segoe UI",Arial,sans-serif; --body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
   --r:22px;
   color-scheme:dark;
@@ -52,13 +52,16 @@ p{margin:0}
 .dchip b{font-family:var(--disp);font-size:17px}
 .dchip span{font-size:11px;color:var(--mu);font-weight:600}
 .dot{width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
-.dot.lift{background:rgba(242,184,75,.18)} .dot.run{background:rgba(255,143,58,.18)} .dot.rest{background:var(--s2)}
+.dot.lift{background:rgba(92,184,255,.18)} .dot.run{background:rgba(63,211,214,.18)} .dot.rest{background:var(--s2)}
 .dot.lift::after,.dot.run::after{content:"";width:6px;height:6px;border-radius:50%}
 .dot.lift::after{background:var(--lift)} .dot.run::after{background:var(--run)}
 .dot.done{background:var(--ok)} .dot.done::after{content:"";width:8px;height:4px;border:2px solid var(--ink);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px);border-radius:0;background:none}
 
-/* Hanuman cover */
-.cover{position:relative;border-radius:var(--r);overflow:hidden;height:250px;background:#3a0e06}
+/* ocean cover */
+.cover .wv{animation:drift 20s linear infinite}
+@keyframes drift{to{transform:translateX(-200px)}}
+@media (prefers-reduced-motion:reduce){.cover .wv{animation:none}}
+.cover{position:relative;border-radius:var(--r);overflow:hidden;height:250px;background:#0a3550}
 .cover .hp{display:block;width:100%;height:100%}
 .cover .cap{position:absolute;left:0;right:0;bottom:0;padding:40px 18px 16px;background:linear-gradient(transparent,rgba(30,6,2,.85));color:#fff;display:grid;gap:4px}
 .cover .cap b{font-family:var(--disp);font-size:20px;font-weight:700;line-height:1.05}
@@ -70,12 +73,12 @@ p{margin:0}
 .hero .txt{align-self:end;display:grid;gap:8px}
 .hero h1{font-size:28px}
 .hero .meta{font-weight:600;opacity:.92;font-size:14px}
-.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(20,10,5,.28);border-radius:99px;padding:6px 11px;font:700 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;justify-self:start;color:#fff}
+.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(3,18,26,.3);border-radius:99px;padding:6px 11px;font:700 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;justify-self:start;color:#fff}
 .chip.ok{background:var(--ok);color:var(--ink)}
 .go{background:var(--tx);color:var(--ink);border:0;border-radius:99px;padding:14px 22px;font-family:var(--disp);font-weight:600;font-size:15px;display:inline-flex;gap:10px;align-items:center;justify-self:start;margin-top:6px}
 .go svg{width:14px;height:14px}
 .alt{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
-.ghost{background:rgba(20,10,5,.28);border:0;color:#fff;border-radius:99px;padding:10px 16px;font-weight:700;font-size:13px}
+.ghost{background:rgba(3,18,26,.3);border:0;color:#fff;border-radius:99px;padding:10px 16px;font-weight:700;font-size:13px}
 
 /* exercise photos (free-exercise-db, public domain) */
 .ph{position:relative;background:#15120f;overflow:hidden;border-radius:16px}
@@ -178,15 +181,26 @@ ul.clean b{color:var(--tx)}
 .dr span{font-size:13px;color:var(--acc);font-weight:600}
 .dr small{font-size:12px;color:var(--mu)}
 
+.wdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.wdays button{position:relative;border:0;background:var(--s1);border-radius:12px;padding:10px 0;font-weight:700;font-size:12.5px;color:var(--mu)}
+.wdays button[aria-selected="true"]{background:var(--acc);color:var(--ink)}
+.wdays button i{position:absolute;left:50%;bottom:4px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:currentColor}
+.wcard{gap:0}
+.wcard .mh{padding-bottom:10px;border-bottom:1px solid var(--s2)}
+.wm{display:grid;gap:4px;padding:12px 0;border-bottom:1px solid var(--s2)}
+.wm:last-child{border-bottom:0;padding-bottom:0}
+.wm p{font-size:14.5px}
+.wp{font-size:12.5px;color:var(--mu)}
+.wp b{color:var(--acc)}
 /* tab bar */
-.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(15,13,12,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--s2);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(6,20,28,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--s2);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 .tabs .in{max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
 .tabs button{background:none;border:0;color:var(--dim);display:grid;justify-items:center;gap:5px;padding:9px 0 10px;font-weight:600;font-size:11px}
 .tabs button span.ti{display:grid;place-items:center;width:52px;height:30px;border-radius:99px;transition:background .2s}
 .tabs svg{width:22px;height:22px}
 .tabs button[aria-current="page"]{color:var(--tx)}
 .tabs button[aria-current="page"] svg{color:var(--acc)}
-.tabs button[aria-current="page"] span.ti{background:rgba(255,143,58,.14)}
+.tabs button[aria-current="page"] span.ti{background:rgba(63,211,214,.16)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
 
 /* ---------- player ---------- */
@@ -481,7 +495,7 @@ function target(e){return e.hold?holdSec()+" s":e.reps+(e.each?" / "+e.each.spli
 /* ---------- views ---------- */
 var tab="today";
 var PLAN=["lift","run","lift","run","lift","run","rest"];
-var HP='<svg class="hp" viewBox="0 0 320 380" preserveAspectRatio="xMidYMin slice" role="img" aria-label="Lord Hanuman holding his gada, with crown, tilak and gold ornaments"><defs><radialGradient id="pBg" cx=".5" cy=".3" r=".8"><stop offset="0" stop-color="#ffd27a"/><stop offset=".35" stop-color="#f08a2a"/><stop offset=".75" stop-color="#8e2a10"/><stop offset="1" stop-color="#3a0e06"/></radialGradient><radialGradient id="pHalo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff6c8"/><stop offset=".55" stop-color="#ffd36a"/><stop offset=".9" stop-color="#ffb23a" stop-opacity=".55"/><stop offset="1" stop-color="#ffb23a" stop-opacity="0"/></radialGradient><linearGradient id="pFur" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9834a"/><stop offset=".5" stop-color="#9c5626"/><stop offset="1" stop-color="#5a2a10"/></linearGradient><radialGradient id="pChest" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="#e2a26a"/><stop offset=".6" stop-color="#b06a34"/><stop offset="1" stop-color="#7a3c18"/></radialGradient><radialGradient id="pFace" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#fbe2bc"/><stop offset=".7" stop-color="#f0c48e"/><stop offset="1" stop-color="#d79a62"/></radialGradient><linearGradient id="pGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4b0"/><stop offset=".45" stop-color="#f3bf3c"/><stop offset="1" stop-color="#9a650c"/></linearGradient><radialGradient id="pGoldB" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#fffbd6"/><stop offset=".4" stop-color="#f6c844"/><stop offset="1" stop-color="#8e5a08"/></radialGradient><linearGradient id="pHair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2410"/><stop offset="1" stop-color="#1e0c04"/></linearGradient><linearGradient id="pDhoti" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9600e"/><stop offset=".5" stop-color="#ffa53a"/><stop offset="1" stop-color="#c4520c"/></linearGradient></defs><rect width="320" height="380" fill="url(#pBg)"/><!-- sun rays and halo --><g stroke="#ffe7a0" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"><path d="M160 112L160 -20M160 112L227 -4M160 112L276 30M160 112L300 80M160 112L304 140M160 112L93 -4M160 112L44 30M160 112L20 80M160 112L16 140"/></g><circle cx="160" cy="112" r="104" fill="url(#pHalo)"/><circle cx="160" cy="112" r="88" fill="none" stroke="#fff0b0" stroke-opacity=".75" stroke-width="2"/><circle cx="160" cy="112" r="80" fill="none" stroke="#fff0b0" stroke-opacity=".4" stroke-width="1" stroke-dasharray="2 5"/><!-- far hills --><path d="M0 330C40 300 70 312 100 296C130 280 150 300 170 292C210 276 250 300 320 286V380H0Z" fill="#5a1a0a" opacity=".55"/><g stroke="#2a0f05" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><!-- tail --><path d="M96 352C40 352 18 300 30 250C40 206 70 196 72 168C74 146 60 136 50 142" fill="none" stroke="#2a0f05" stroke-width="13"/><path d="M96 352C40 352 18 300 30 250C40 206 70 196 72 168C74 146 60 136 50 142" fill="none" stroke="#a45e2c" stroke-width="8.5"/><path d="M50 142C42 132 46 120 56 122C50 128 56 136 62 134C58 142 54 146 50 142Z" fill="#3a1a0a"/><!-- long hair behind --><path d="M112 84C92 112 96 150 84 186C76 214 80 244 70 270C96 262 104 236 112 214C112 190 122 170 126 150ZM208 84C228 112 224 150 236 186C244 214 240 244 250 270C224 262 216 236 208 214C208 190 198 170 194 150Z" fill="url(#pHair)"/><!-- gada head behind shoulder --><g><circle cx="276" cy="104" r="34" fill="url(#pGoldB)"/><path d="M276 70C262 84 262 124 276 138M276 70C290 84 290 124 276 138M248 92C262 98 290 98 304 92M248 116C262 110 290 110 304 116" fill="none" stroke="#9a650c" stroke-width="1.6"/><circle cx="276" cy="104" r="5" fill="#d42a1c"/><path d="M268 70L276 50L284 70Z" fill="url(#pGold)"/><circle cx="276" cy="48" r="4" fill="url(#pGoldB)"/><rect x="266" y="135" width="20" height="9" rx="3" fill="url(#pGold)"/></g><!-- neck --><path d="M136 150L136 186L184 186L184 150Z" fill="url(#pFur)"/><!-- torso --><path d="M138 172C118 182 92 184 74 204C66 236 84 270 96 300C102 322 104 344 106 380H214C216 344 218 322 224 300C236 270 254 236 246 204C228 184 202 182 182 172Z" fill="url(#pFur)"/><path d="M160 196C138 194 108 200 102 220C100 246 112 262 132 266C148 268 156 262 160 256C164 262 172 268 188 266C208 262 220 246 218 220C212 200 182 194 160 196Z" fill="url(#pChest)"/><path d="M160 200V256M110 224C126 236 148 236 158 232M210 224C194 236 172 236 162 232" fill="none" stroke-width="1.6" stroke-opacity=".7"/><g fill="url(#pChest)" stroke-width="1.6"><rect x="136" y="270" width="22" height="20" rx="8"/><rect x="162" y="270" width="22" height="20" rx="8"/><rect x="137" y="293" width="21" height="19" rx="8"/><rect x="162" y="293" width="21" height="19" rx="8"/><rect x="139" y="315" width="19" height="17" rx="7"/><rect x="162" y="315" width="19" height="17" rx="7"/></g><path d="M104 270C112 290 118 312 122 336M216 270C208 290 202 312 198 336" fill="none" stroke-width="1.4" stroke-opacity=".6"/><!-- sacred thread --><path d="M110 196C140 250 180 300 210 352" fill="none" stroke="#f6ead0" stroke-width="2.4"/><!-- left arm (hand on hip) --><path d="M76 206C56 214 48 250 52 284C54 300 62 310 74 310C86 306 92 290 94 270C98 244 98 220 76 206Z" fill="url(#pFur)"/><path d="M60 236C58 256 62 276 72 288" fill="none" stroke-width="1.3" stroke-opacity=".6"/><path d="M58 256C54 262 54 270 58 274L92 274C96 268 96 262 92 256Z" fill="url(#pGold)"/><circle cx="75" cy="265" r="4" fill="#d42a1c" stroke-width="1"/><path d="M58 300C66 322 82 340 104 348C112 338 110 328 100 322C88 314 80 304 76 296Z" fill="url(#pFur)"/><path d="M84 330L96 318M90 336L102 326" fill="none" stroke="url(#pGold)" stroke-width="5"/><ellipse cx="108" cy="346" rx="12" ry="10" fill="#9c5626"/><ellipse cx="78" cy="214" rx="24" ry="26" fill="url(#pFur)"/><path d="M66 200C74 194 86 196 92 204" fill="none" stroke="#e2a26a" stroke-width="3" stroke-opacity=".7"/><!-- right arm (holding gada) --><path d="M244 206C264 214 272 250 268 284C266 300 258 308 246 308C234 304 228 290 226 270C222 244 222 220 244 206Z" fill="url(#pFur)"/><path d="M262 256C266 262 266 270 262 274L228 274C224 268 224 262 228 256Z" fill="url(#pGold)"/><circle cx="245" cy="265" r="4" fill="#d42a1c" stroke-width="1"/><!-- gada shaft --><path d="M226 300L270 136" fill="none" stroke="#2a0f05" stroke-width="12"/><path d="M226 300L270 136" fill="none" stroke="url(#pGold)" stroke-width="8"/><path d="M240 250L250 252M247 222L257 225M254 196L264 199M261 170L271 173" fill="none" stroke="#9a650c" stroke-width="2"/><path d="M222 312L230 284" fill="none" stroke="#2a0f05" stroke-width="12"/><path d="M222 312L230 284" fill="none" stroke="url(#pGold)" stroke-width="8"/><circle cx="221" cy="316" r="6" fill="url(#pGoldB)"/><path d="M254 298L231 258" stroke="#2a0f05" stroke-width="26"/><path d="M254 298L231 258" stroke="#a45e2c" stroke-width="21.5"/><path d="M258 290C252 282 246 272 240 264" fill="none" stroke="#d08a52" stroke-width="4" stroke-opacity=".6"/><path d="M249.1 267.3L230.1 278.3M247.2 263.9L228.2 274.9" stroke="#2a0f05" stroke-width="6.5"/><path d="M249.1 267.3L230.1 278.3M247.2 263.9L228.2 274.9" stroke="#f3bf3c" stroke-width="3.6"/><ellipse cx="236" cy="252" rx="15" ry="12" fill="#9c5626" transform="rotate(-20 236 252)"/><path d="M226 246C232 250 240 250 246 246M224 254C230 258 240 258 248 254" fill="none" stroke-width="1.2"/><ellipse cx="242" cy="214" rx="24" ry="26" fill="url(#pFur)"/><path d="M228 202C236 196 248 196 256 204" fill="none" stroke="#e2a26a" stroke-width="3" stroke-opacity=".7"/><!-- rudraksha mala --><g fill="#5a2a12" stroke-width="1"><circle cx="138" cy="186" r="3.6"/><circle cx="141" cy="194" r="3.6"/><circle cx="146" cy="201" r="3.6"/><circle cx="153" cy="206" r="3.6"/><circle cx="160" cy="208" r="3.6"/><circle cx="167" cy="206" r="3.6"/><circle cx="174" cy="201" r="3.6"/><circle cx="179" cy="194" r="3.6"/><circle cx="182" cy="186" r="3.6"/></g><!-- gold bead mala --><g fill="url(#pGoldB)" stroke-width="1.2"><circle cx="128" cy="184" r="5.5"/><circle cx="125" cy="196" r="5.5"/><circle cx="126" cy="208" r="5.5"/><circle cx="130" cy="220" r="5.5"/><circle cx="136" cy="231" r="5.5"/><circle cx="143" cy="240" r="5.5"/><circle cx="151" cy="246" r="5.5"/><circle cx="192" cy="184" r="5.5"/><circle cx="195" cy="196" r="5.5"/><circle cx="194" cy="208" r="5.5"/><circle cx="190" cy="220" r="5.5"/><circle cx="184" cy="231" r="5.5"/><circle cx="177" cy="240" r="5.5"/><circle cx="169" cy="246" r="5.5"/></g><path d="M160 244L170 254L160 270L150 254Z" fill="url(#pGold)" stroke-width="1.4"/><circle cx="160" cy="256" r="4" fill="#d42a1c" stroke-width="1"/><!-- dhoti and sash --><path d="M104 344C140 352 180 352 216 344L218 380H102Z" fill="url(#pDhoti)"/><path d="M104 340C140 348 180 348 216 340L216 350C180 358 140 358 104 350Z" fill="#c4201a"/><path d="M105 352C140 360 180 360 215 352" fill="none" stroke="#ffd25a" stroke-width="2.5"/><path d="M196 352C204 362 202 372 196 380L210 380C214 370 212 360 206 352Z" fill="#c4201a"/><!-- ears and kundal --><ellipse cx="108" cy="112" rx="12" ry="15" fill="url(#pFur)"/><ellipse cx="109" cy="113" rx="6" ry="8" fill="#e8b07c" stroke="none"/><ellipse cx="212" cy="112" rx="12" ry="15" fill="url(#pFur)"/><ellipse cx="211" cy="113" rx="6" ry="8" fill="#e8b07c" stroke="none"/><circle cx="106" cy="136" r="8" fill="none" stroke="#2a0f05" stroke-width="5.5"/><circle cx="106" cy="136" r="8" fill="none" stroke="url(#pGold)" stroke-width="3.2"/><circle cx="106" cy="144" r="2.6" fill="#d42a1c" stroke-width=".8"/><circle cx="214" cy="136" r="8" fill="none" stroke="#2a0f05" stroke-width="5.5"/><circle cx="214" cy="136" r="8" fill="none" stroke="url(#pGold)" stroke-width="3.2"/><circle cx="214" cy="144" r="2.6" fill="#d42a1c" stroke-width=".8"/><!-- head fur with cheek tufts --><path d="M160 58C130 58 112 78 112 104C112 120 110 132 116 142L112 152L124 152L122 162L136 160L140 172L150 166L160 176L170 166L180 172L184 160L198 162L196 152L208 152L204 142C210 132 208 120 208 104C208 78 190 58 160 58Z" fill="url(#pFur)"/><!-- face mask --><path d="M160 96C150 86 128 86 124 102C120 118 126 132 136 142C142 156 152 164 160 164C168 164 178 156 184 142C194 132 200 118 196 102C192 86 170 86 160 96Z" fill="url(#pFace)" stroke-width="1.6"/><!-- muzzle --><path d="M140 128C140 116 150 112 160 112C170 112 180 116 180 128C182 144 172 158 160 158C148 158 138 144 140 128Z" fill="#fbe6c4" stroke-width="1.4"/><path d="M153 124C153 119 167 119 167 124C167 129 163 131 160 131C157 131 153 129 153 124Z" fill="#5a2a12" stroke-width="1"/><ellipse cx="156.5" cy="126" rx="1.6" ry="1.2" fill="#1a0a04" stroke="none"/><ellipse cx="163.5" cy="126" rx="1.6" ry="1.2" fill="#1a0a04" stroke="none"/><path d="M146 140C152 147 168 147 174 140" fill="none" stroke-width="2"/><path d="M150 143C155 151 165 151 170 143" fill="#c25a48" stroke-width="1.2"/><path d="M160 131V138" fill="none" stroke-width="1.2"/><!-- cheeks blush --><ellipse cx="134" cy="128" rx="6" ry="3.5" fill="#f08a6a" opacity=".45" stroke="none"/><ellipse cx="186" cy="128" rx="6" ry="3.5" fill="#f08a6a" opacity=".45" stroke="none"/><!-- eyes --><path d="M132 108C136 101 148 100 154 107C148 113 138 114 132 108Z" fill="#fffaf0" stroke-width="1.4"/><path d="M188 108C184 101 172 100 166 107C172 113 182 114 188 108Z" fill="#fffaf0" stroke-width="1.4"/><circle cx="144" cy="107" r="4.6" fill="#5a2c0c" stroke="none"/><circle cx="144" cy="107" r="2.2" fill="#120602" stroke="none"/><circle cx="145.6" cy="105.4" r="1.3" fill="#fff" stroke="none"/><circle cx="176" cy="107" r="4.6" fill="#5a2c0c" stroke="none"/><circle cx="176" cy="107" r="2.2" fill="#120602" stroke="none"/><circle cx="177.6" cy="105.4" r="1.3" fill="#fff" stroke="none"/><path d="M131 107C137 99 149 99 155 106M189 107C183 99 171 99 165 106" fill="none" stroke-width="2.6"/><!-- brows --><path d="M128 97C136 90 148 90 154 95M192 97C184 90 172 90 166 95" fill="none" stroke="#3a1606" stroke-width="3.4"/><!-- tilak --><path d="M152 66C152 82 155 92 160 94C165 92 168 82 168 66" fill="none" stroke="#2a0f05" stroke-width="5.5"/><path d="M152 66C152 82 155 92 160 94C165 92 168 82 168 66" fill="none" stroke="#fffaf0" stroke-width="3"/><path d="M160 70V90" fill="none" stroke="#e01e14" stroke-width="3"/><!-- crown (mukut) --><path d="M114 72C126 64 144 60 160 60C176 60 194 64 206 72L204 82C190 76 176 74 160 74C144 74 130 76 116 82Z" fill="url(#pGold)" stroke-width="1.8"/><path d="M120 66L118 44L132 54L136 30L148 46L160 8L172 46L184 30L188 54L202 44L200 66C188 60 174 58 160 58C146 58 132 60 120 66Z" fill="url(#pGold)" stroke-width="1.8"/><path d="M160 22L166 44L160 54L154 44Z" fill="#d42a1c" stroke-width="1.2"/><circle cx="136" cy="52" r="3.2" fill="#2a9a6a" stroke-width="1"/><circle cx="184" cy="52" r="3.2" fill="#2a9a6a" stroke-width="1"/><circle cx="160" cy="7" r="4" fill="url(#pGoldB)" stroke-width="1.2"/><g fill="#fff4b0" stroke="none"><circle cx="128" cy="76" r="1.6"/><circle cx="142" cy="72" r="1.6"/><circle cx="160" cy="70" r="1.8"/><circle cx="178" cy="72" r="1.6"/><circle cx="192" cy="76" r="1.6"/></g><path d="M160 64L164 68L160 72L156 68Z" fill="#d42a1c" stroke-width="1"/></g><!-- glints --><g fill="#fffbe0"><path d="M262 88l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M168 20l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z"/></g></svg>';
+var HP='<svg class="hp" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Calm ocean waves at sunrise"><defs><linearGradient id="oSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a3550"/><stop offset=".55" stop-color="#1b86a6"/><stop offset="1" stop-color="#8fe3e3"/></linearGradient><radialGradient id="oSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff8d8"/><stop offset=".35" stop-color="#ffe9a8" stop-opacity=".9"/><stop offset="1" stop-color="#ffe0a0" stop-opacity="0"/></radialGradient></defs><rect width="400" height="250" fill="url(#oSky)"/><circle cx="300" cy="118" r="70" fill="url(#oSun)"/><circle cx="300" cy="118" r="22" fill="#fffbe8"/><rect x="277" y="150" width="46" height="2" rx="1" fill="#fff6d0" opacity="0.55"/><rect x="283" y="160" width="34" height="2" rx="1" fill="#fff6d0" opacity="0.45"/><rect x="287" y="171" width="26" height="2" rx="1" fill="#fff6d0" opacity="0.40"/><rect x="291" y="183" width="18" height="2" rx="1" fill="#fff6d0" opacity="0.30"/><rect x="294" y="196" width="12" height="2" rx="1" fill="#fff6d0" opacity="0.22"/><g class="waves"><path class="wv" style="animation-duration:26s" d="M0 260 L0 150.0 L10 152.2 L20 154.1 L30 155.7 L40 156.7 L50 157.0 L60 156.7 L70 155.7 L80 154.1 L90 152.2 L100 150.0 L110 147.8 L120 145.9 L130 144.3 L140 143.3 L150 143.0 L160 143.3 L170 144.3 L180 145.9 L190 147.8 L200 150.0 L210 152.2 L220 154.1 L230 155.7 L240 156.7 L250 157.0 L260 156.7 L270 155.7 L280 154.1 L290 152.2 L300 150.0 L310 147.8 L320 145.9 L330 144.3 L340 143.3 L350 143.0 L360 143.3 L370 144.3 L380 145.9 L390 147.8 L400 150.0 L410 152.2 L420 154.1 L430 155.7 L440 156.7 L450 157.0 L460 156.7 L470 155.7 L480 154.1 L490 152.2 L500 150.0 L510 147.8 L520 145.9 L530 144.3 L540 143.3 L550 143.0 L560 143.3 L570 144.3 L580 145.9 L590 147.8 L600 150.0 L610 152.2 L620 154.1 L630 155.7 L640 156.7 L650 157.0 L660 156.7 L670 155.7 L680 154.1 L690 152.2 L700 150.0 L710 147.8 L720 145.9 L730 144.3 L740 143.3 L750 143.0 L760 143.3 L770 144.3 L780 145.9 L790 147.8 L800 150.0 L800 260 Z" fill="#2bb5c2" opacity="0.55"/><path class="wv" style="animation-duration:20s" d="M0 260 L0 175.7 L10 176.0 L20 175.5 L30 174.3 L40 172.4 L50 170.1 L60 167.7 L70 165.2 L80 163.0 L90 161.3 L100 160.3 L110 160.0 L120 160.5 L130 161.7 L140 163.6 L150 165.9 L160 168.3 L170 170.8 L180 173.0 L190 174.7 L200 175.7 L210 176.0 L220 175.5 L230 174.3 L240 172.4 L250 170.1 L260 167.7 L270 165.2 L280 163.0 L290 161.3 L300 160.3 L310 160.0 L320 160.5 L330 161.7 L340 163.6 L350 165.9 L360 168.3 L370 170.8 L380 173.0 L390 174.7 L400 175.7 L410 176.0 L420 175.5 L430 174.3 L440 172.4 L450 170.1 L460 167.7 L470 165.2 L480 163.0 L490 161.3 L500 160.3 L510 160.0 L520 160.5 L530 161.7 L540 163.6 L550 165.9 L560 168.3 L570 170.8 L580 173.0 L590 174.7 L600 175.7 L610 176.0 L620 175.5 L630 174.3 L640 172.4 L650 170.1 L660 167.7 L670 165.2 L680 163.0 L690 161.3 L700 160.3 L710 160.0 L720 160.5 L730 161.7 L740 163.6 L750 165.9 L760 168.3 L770 170.8 L780 173.0 L790 174.7 L800 175.7 L800 260 Z" fill="#1793a6" opacity="0.8"/><path class="wv" style="animation-duration:15s" d="M0 260 L0 197.8 L10 196.0 L20 193.6 L30 190.9 L40 188.1 L50 185.5 L60 183.3 L70 181.8 L80 181.0 L90 181.2 L100 182.2 L110 184.0 L120 186.4 L130 189.1 L140 191.9 L150 194.5 L160 196.7 L170 198.2 L180 199.0 L190 198.8 L200 197.8 L210 196.0 L220 193.6 L230 190.9 L240 188.1 L250 185.5 L260 183.3 L270 181.8 L280 181.0 L290 181.2 L300 182.2 L310 184.0 L320 186.4 L330 189.1 L340 191.9 L350 194.5 L360 196.7 L370 198.2 L380 199.0 L390 198.8 L400 197.8 L410 196.0 L420 193.6 L430 190.9 L440 188.1 L450 185.5 L460 183.3 L470 181.8 L480 181.0 L490 181.2 L500 182.2 L510 184.0 L520 186.4 L530 189.1 L540 191.9 L550 194.5 L560 196.7 L570 198.2 L580 199.0 L590 198.8 L600 197.8 L610 196.0 L620 193.6 L630 190.9 L640 188.1 L650 185.5 L660 183.3 L670 181.8 L680 181.0 L690 181.2 L700 182.2 L710 184.0 L720 186.4 L730 189.1 L740 191.9 L750 194.5 L760 196.7 L770 198.2 L780 199.0 L790 198.8 L800 197.8 L800 260 Z" fill="#0e6f86" opacity="0.92"/><path class="wv" style="animation-duration:11s" d="M0 260 L0 215.4 L10 212.3 L20 209.3 L30 206.8 L40 205.0 L50 204.1 L60 204.1 L70 205.2 L80 207.0 L90 209.6 L100 212.6 L110 215.7 L120 218.7 L130 221.2 L140 223.0 L150 223.9 L160 223.9 L170 222.8 L180 221.0 L190 218.4 L200 215.4 L210 212.3 L220 209.3 L230 206.8 L240 205.0 L250 204.1 L260 204.1 L270 205.2 L280 207.0 L290 209.6 L300 212.6 L310 215.7 L320 218.7 L330 221.2 L340 223.0 L350 223.9 L360 223.9 L370 222.8 L380 221.0 L390 218.4 L400 215.4 L410 212.3 L420 209.3 L430 206.8 L440 205.0 L450 204.1 L460 204.1 L470 205.2 L480 207.0 L490 209.6 L500 212.6 L510 215.7 L520 218.7 L530 221.2 L540 223.0 L550 223.9 L560 223.9 L570 222.8 L580 221.0 L590 218.4 L600 215.4 L610 212.3 L620 209.3 L630 206.8 L640 205.0 L650 204.1 L660 204.1 L670 205.2 L680 207.0 L690 209.6 L700 212.6 L710 215.7 L720 218.7 L730 221.2 L740 223.0 L750 223.9 L760 223.9 L770 222.8 L780 221.0 L790 218.4 L800 215.4 L800 260 Z" fill="#07485e" opacity="1"/></g></svg>';
 function today(){
   var now=new Date(),dow=(now.getDay()+6)%7,mon=new Date(now);mon.setDate(now.getDate()-dow);
   var t=iso(now),done=S.log.filter(function(l){return l.d==t}).length>0;
@@ -500,7 +514,7 @@ function today(){
   }
   var runsTotal=S.runs.reduce(function(a,b){return a+b},0);
   return '<div class="top"><div><p class="lbl">'+now.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"short"})+'</p><h1 style="margin-top:6px">'+greet+'</h1></div><div class="badge"><i></i>'+(rp.w<8?"Week "+(rp.w+1)+" of 8":"Speed phase")+'</div></div>'+
-    '<div class="cover">'+HP+'<div class="cap"><b>Jai Bajrang Bali</b><span>Strength · Discipline · Devotion</span></div></div>'+'<div class="strip">'+strip+'</div>'+hero+
+    '<div class="cover">'+HP+'<div class="cap"><b>Stamina &amp; Strength</b><span>Run 10 minutes non-stop · build lean muscle</span></div></div>'+'<div class="strip">'+strip+'</div>'+hero+
     '<div class="stats"><div class="stat"><span class="lbl">This week</span><b>'+weekDone+'<small>/6</small></b></div><div class="stat"><span class="lbl">Runs</span><b>'+runsTotal+'<small>/24</small></b></div><div class="stat"><span class="lbl">Lifts</span><b>'+lifts()+'</b></div></div>'+
     '<div class="sec"><div class="sech"><h2>Programs</h2><button class="link" data-act="tab" data-a="plans">See all</button></div><div class="rail">'+
       '<button class="pcard" style="--g:var(--g-run)" data-act="run" data-a="'+rp.w+'" data-b="'+rp.r+'">'+fig("run","f",760)+'<span>8 weeks · 3 runs a week</span><h3>Run 10 minutes non-stop</h3></button>'+
@@ -561,6 +575,96 @@ var DRINK=[["Water","3–3.5 litres a day","More on gym and run days"],["Butterm
 var AVOID=["Pork, ham and bacon","Mutton, beef, steak and other red meat","Duck","Sugary soft drinks, packaged juice and energy drinks","Fried snacks, sweets and late-night eating","Alcohol"];
 function fnum(v){return (Math.round(v*10)/10).toString()}
 function ftab(rows,cols){return '<div class="ftab"><div class="fh">'+cols.map(function(c){return '<span>'+c+'</span>'}).join("")+'</div>'+rows.join("")+'</div>'}
+/* 7-day meal plan. Each meal: [what to eat with grams, protein g, kcal]. Day i uses breakfast b[i], lunch l[i], snack s[i%4], dinner d[i]. */
+var WEEK={
+ nonveg:{
+  b:[["50 g oats cooked in 250 ml milk + 2 boiled eggs + 1 banana (120 g)",28,590],
+     ["3-egg omelette with 50 g onion, tomato and capsicum + 2 slices whole-wheat toast (60 g)",25,480],
+     ["2 moong dal chillas (60 g dal) + 2 boiled eggs + 100 g curd",30,480],
+     ["Poha (50 g dry) with 30 g peas and 10 g peanuts + 3 egg whites + 250 ml milk",26,460],
+     ["3 idlis (150 g) + 150 ml sambar + 2 boiled eggs",22,445],
+     ["200 g Greek yoghurt + 40 g oats + 1 apple + 10 g almonds",28,410],
+     ["Egg bhurji (3 eggs) + 2 rotis (80 g) + 100 g tomato and cucumber",25,480]],
+  l:[["150 g rice + 120 g chicken breast curry + 150 g palak, beans and carrot sabzi + 100 g salad",45,560],
+     ["2 rotis (80 g) + 150 g rohu fish curry + 1 katori dal (150 g) + 100 g salad",49,620],
+     ["150 g brown rice + 150 g grilled chicken + 150 g broccoli and carrot",53,485],
+     ["Homemade chicken biryani: 150 g rice + 100 g chicken + 100 g cucumber raita",38,510],
+     ["2 rotis + 100 g paneer bhurji + 150 g bhindi sabzi + 100 g curd",33,560],
+     ["150 g rice + egg curry (2 eggs) + 150 g rajma + 100 g salad",30,605],
+     ["Chicken wrap: 2 whole-wheat rotis + 120 g chicken tikka + 100 g lettuce, onion, tomato + 50 g hung-curd dip",49,455]],
+  s:[["150 g Greek yoghurt + 20 g roasted peanuts",20,205],
+     ["Whey shake (1 scoop, 30 g) in water + 1 banana",25,225],
+     ["2 boiled eggs + 30 g roasted chana",19,255],
+     ["250 ml chaas + 30 g roasted chana + 1 apple",10,230]],
+  d:[["2 rotis + 120 g grilled fish + 150 g broccoli, capsicum and mushroom stir-fry",36,445],
+     ["150 g chicken soup or stew with 150 g mixed veg + 1 roti (40 g)",52,395],
+     ["2 rotis + 100 g paneer tikka + 150 g palak + 100 g curd",33,465],
+     ["150 g quinoa + 120 g chicken breast + 150 g beans and carrot",46,450],
+     ["2 rotis + 150 g surmai fish tikka + 150 g cabbage and peas sabzi",43,490],
+     ["Chicken salad bowl: 120 g chicken + 100 g chickpeas + 150 g cucumber, tomato, lettuce + 1 tsp olive oil",48,470],
+     ["2 rotis + 120 g chicken curry + 150 g mixed veg",47,475]]},
+ veg:{
+  b:[["50 g oats cooked in 250 ml milk + 10 g almonds + 1 banana (120 g)",18,505],
+     ["2 moong dal chillas (60 g dal) stuffed with 50 g paneer + 100 g curd",27,400],
+     ["2 besan chillas (60 g besan) + 100 g curd + 250 ml milk",25,450],
+     ["Poha (50 g dry) with 30 g peas and 10 g peanuts + 250 ml milk",16,405],
+     ["3 idlis (150 g) + 150 ml sambar + 100 g curd + 200 ml milk",20,480],
+     ["200 g Greek yoghurt + 40 g oats + 1 apple + 10 g almonds",28,410],
+     ["Paneer bhurji (100 g paneer) + 2 rotis (80 g) + 100 g tomato",27,440]],
+  l:[["150 g rice + 1 katori dal (150 g) + palak paneer (100 g paneer) + 100 g salad",34,665],
+     ["2 rotis + 150 g rajma + 100 g curd + 100 g salad",24,440],
+     ["150 g brown rice + 150 g chana masala + 150 g bhindi + 100 g raita",23,560],
+     ["Veg pulao (150 g rice, 50 g peas) + 100 g paneer tikka + 100 g raita",30,505],
+     ["2 rotis + soya chunks curry (50 g dry) + 150 g mixed veg + 100 g curd",40,465],
+     ["150 g quinoa + 1 katori dal (150 g) + 150 g palak sabzi + 100 g salad",21,420],
+     ["2 rotis + 100 g paneer bhurji + 150 g bhindi + 100 g curd",33,560]],
+  s:[["150 g Greek yoghurt + 20 g roasted peanuts",20,205],
+     ["Whey shake (1 scoop) in 250 ml milk + 1 banana",33,375],
+     ["50 g paneer cubes + 30 g roasted chana",17,240],
+     ["250 ml chaas + 30 g roasted chana + 1 apple",10,230]],
+  d:[["2 rotis + soya chunks curry (30 g dry) + 150 g mixed veg + 100 g curd",29,400],
+     ["2 rotis + 100 g paneer tikka + 150 g palak + 100 g curd",33,465],
+     ["150 g moong dal khichdi + 50 g paneer + 150 g mixed veg + 100 g curd",25,455],
+     ["150 g quinoa + 100 g paneer + 150 g beans and carrot",29,450],
+     ["2 jowar rotis + 150 g chana masala + 100 g curd",22,485],
+     ["2 rotis + 1 katori dal (150 g) + 100 g paneer bhurji + 100 g salad",36,600],
+     ["Soya pulao: 100 g rice + 30 g soya chunks + 50 g peas + 100 g raita",24,345]]},
+ vegan:{
+  b:[["50 g oats cooked in 250 ml soy milk + 1 tbsp peanut butter + 1 banana",19,470],
+     ["2 moong dal chillas (60 g dal) + 100 g tofu bhurji",29,400],
+     ["2 besan chillas (60 g besan) + 250 ml soy milk",20,310],
+     ["Poha (50 g dry) with 30 g peas and 15 g peanuts + 250 ml soy milk",16,365],
+     ["3 idlis (150 g) + 150 ml sambar + 30 g roasted chana",17,410],
+     ["Tofu scramble (150 g tofu, 100 g veg) + 2 slices whole-wheat toast",31,400],
+     ["Smoothie: 1 scoop pea protein + 250 ml soy milk + 1 banana + 10 g peanut butter",33,360]],
+  l:[["150 g brown rice + 150 g rajma + 100 g tofu with broccoli and capsicum + 100 g salad",35,550],
+     ["2 rotis + 150 g chana masala + 150 g bhindi + 100 g salad",23,515],
+     ["150 g quinoa + 1 katori dal (150 g) + 150 g palak with 50 g tofu",26,450],
+     ["Veg pulao (150 g rice, 50 g peas) + soya chunks curry (50 g dry) + 100 g salad",34,430],
+     ["2 rotis + 1 katori mixed dal (150 g) + 100 g tofu tikka + 100 g salad",31,495],
+     ["150 g rice + 150 g rajma + 150 g cabbage and peas sabzi",21,455],
+     ["Chickpea bowl: 150 g chana + 100 g tofu + 150 g cucumber, tomato, onion + lemon",30,425]],
+  s:[["Pea protein shake (1 scoop) in water + 30 g roasted chana",29,225],
+     ["30 g roasted peanuts + 1 apple",8,250],
+     ["200 g moong sprouts chaat + 20 g roasted peanuts",11,175],
+     ["250 ml soy milk + 1 banana",8,185]],
+  d:[["2 rotis + soya chunks curry (30 g dry) + 1 katori moong dal + 150 g mixed veg",34,490],
+     ["150 g tofu tikka + 150 g quinoa + 150 g broccoli and capsicum",32,450],
+     ["2 jowar rotis + 150 g chana masala + 150 g lauki sabzi",19,455],
+     ["150 g brown rice + soya chunks curry (50 g dry) + 150 g palak",34,370],
+     ["150 g moong dal khichdi + 100 g tofu + 150 g mixed veg",26,410],
+     ["2 rotis + 150 g rajma + 150 g beans and carrot",22,430],
+     ["Tofu and veg stir-fry (150 g tofu, 150 g veg) + 100 g brown rice",28,390]]}
+};
+var DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+function weekHTML(dk){
+  var W=WEEK[dk],i=(S.mday>=0&&S.mday<7)?S.mday:(new Date().getDay()+6)%7,today=(new Date().getDay()+6)%7;
+  var chips='<div class="wdays" role="tablist">'+DAYS.map(function(d,k){return '<button role="tab" aria-selected="'+(k==i)+'" data-act="mday" data-a="'+k+'">'+d.slice(0,3)+(k==today?'<i></i>':'')+'</button>'}).join("")+'</div>';
+  var ms=[["Breakfast · 8 am",W.b[i]],["Lunch · 1 pm",W.l[i]],["Snack · 5 pm, around your workout",W.s[i%4]],["Dinner · 8 pm",W.d[i]]],p=0,k=0;
+  var rows=ms.map(function(m){p+=m[1][1];k+=m[1][2];return '<div class="wm"><span class="lbl">'+m[0]+'</span><p>'+m[1][0]+'</p><span class="wp"><b>'+m[1][1]+' g</b> protein · '+m[1][2]+' kcal</span></div>'}).join("");
+  return chips+'<div class="card wcard"><div class="mh"><h3>'+DAYS[i]+(i==today?' · today':'')+'</h3><span class="small"><b style="color:var(--acc)">'+p+' g protein</b> · '+k+' kcal</span></div>'+rows+'</div>';
+}
+
 function food(){
   var dk=DIET[S.diet]?S.diet:"nonveg",D=DIET[dk],tp=0,tc=0,tk=0;
   var seg='<div class="seg" role="tablist">'+Object.keys(DIET).map(function(k){return '<button role="tab" aria-selected="'+(k==dk)+'" data-act="diet" data-a="'+k+'">'+DIET[k].n+'</button>'}).join("")+'</div>';
@@ -577,7 +681,7 @@ function food(){
   return '<h1>Food</h1>'+
    '<div class="bighead" style="--g:var(--g-food);min-height:0"><span class="lbl" style="color:#fff">Daily protein for lean muscle</span><div class="calc"><label for="bw" style="font-weight:600">Your weight (kg)</label><input id="bw" type="number" min="30" max="200" inputmode="decimal" value="'+S.bw+'"><output id="prot" for="bw" style="color:#fff">'+Math.round(S.bw*1.6)+'–'+Math.round(S.bw*2)+' g</output></div><p class="small" style="opacity:.92">1.6–2 g of protein per kg of body weight, split over 4 meals of 25–40 g each. Fill half your plate with vegetables, a quarter with protein and a quarter with carbs.</p></div>'+
    '<p class="small mu okfoods">This plan uses <b>chicken, fish, eggs, paneer and plant protein</b> only. No pork, ham, red meat, mutton, steak or duck.</p>'+
-   '<div class="sec"><div class="sech"><h2>One day of eating</h2><span class="small mu">for about 65 kg</span></div>'+seg+'<p class="small mu">'+D.d+'. Weights are cooked unless marked dry.</p>'+tot+meals+
+   '<div class="sec"><div class="sech"><h2>Weekly meal plan</h2><span class="small mu">for about 65 kg</span></div>'+seg+'<p class="small mu">'+D.d+'. Pick a day. Weights are cooked unless marked dry.</p>'+weekHTML(dk)+'</div>'+'<div class="sec"><div class="sech"><h2>Example day, item by item</h2></div>'+tot+meals+
    '<p class="small mu">Heavier or lighter than 65 kg? Change the protein food by about 15 g for every 5 kg.</p></div>'+
    '<div class="sec"><h2>Protein foods</h2><div class="card">'+ftab(prot,["Food and amount","Protein g","kcal"])+'</div></div>'+
    '<div class="sec"><h2>Carbohydrates</h2><div class="card">'+ftab(carb,["Food and amount","Carbs g","kcal"])+'<p class="small mu">Eat most of your carbs in the meals before and after training.</p></div></div>'+
@@ -662,7 +766,7 @@ function armEnd(btn){if(armed===btn){return true}armed=btn;btn.classList.add("ar
 /* ---------- run player ---------- */
 var R=null;
 var PH={walk:"var(--g-walk)",jog:"var(--g-run)",fast:"var(--g-fast)",tempo:"var(--g-run)"};
-var PC={walk:"#69c2ad",jog:"#ff8f3a",fast:"#ff6b5a",tempo:"#ff8f3a"};
+var PC={walk:"#86e3c8",jog:"#3fd3d6",fast:"#5cb8ff",tempo:"#3fd3d6"};
 function startRun(w,r){
   var segs=runSegs(w,r),total=segs.reduce(function(a,s){return a+s.sec},0);
   R={w:w,r:r,segs:segs,total:total,el:0,run:true,last:Date.now(),cur:-1,t0:Date.now()};mode="run";
@@ -762,6 +866,7 @@ document.addEventListener("click",function(ev){
   switch(a){
     case "tab":tab=x;render();window.scrollTo(0,0);break;
     case "diet":S.diet=x;save();render();break;
+    case "mday":S.mday=+x;save();render();break;
     case "run":startRun(+x,+y);break;
     case "lift":startLift(x);break;
     case "tick":var w=+x,i=+y;S.runs[w]=S.runs[w]>i?i:i+1;save();render();break;
@@ -795,6 +900,6 @@ render();
 })();
 </script>
 
-<script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
+<script>if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(r){r.update()}).catch(function(){})})}</script>
 </body>
 </html>

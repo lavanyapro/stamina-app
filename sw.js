@@ -1,5 +1,5 @@
 // Offline support: keeps the app files on the phone so it opens without internet.
-var CACHE = "stamina-v6";
+var CACHE = "stamina-v7";
 var FILES = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-192.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
@@ -14,7 +14,7 @@ self.addEventListener("fetch", function (e) {
   var url = new URL(e.request.url);
   // App page: try the network first so updates arrive, fall back to the saved copy offline.
   if (e.request.mode === "navigate") {
-    e.respondWith(fetch(e.request).then(function (r) {
+    e.respondWith(fetch(e.request, { cache: "no-cache" }).then(function (r) {
       var copy = r.clone(); caches.open(CACHE).then(function (c) { c.put("index.html", copy); }); return r;
     }).catch(function () { return caches.match("index.html"); }));
     return;
