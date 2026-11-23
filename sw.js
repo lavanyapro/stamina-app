@@ -1,5 +1,5 @@
 // Offline support: keeps the app files on the phone so it opens without internet.
-var CACHE = "stamina-v1";
+var CACHE = "stamina-v2";
 var FILES = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-192.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
